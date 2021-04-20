@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Models/note.dart';
 
+// ignore: must_be_immutable
 class NoteList extends StatelessWidget {
   List<Note> notes = [];
   NoteList(this.notes);

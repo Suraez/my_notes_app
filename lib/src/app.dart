@@ -4,7 +4,8 @@ import 'package:http/http.dart';
 import 'dart:convert';
 
 // custom imports
-import './Widgets/note_list.dart';
+import 'Pages/home.dart';
+import 'Pages/new_note.dart';
 
 class App extends StatefulWidget {
   @override
@@ -16,29 +17,27 @@ class _AppState extends State<App> {
 
   var _counter = 0;
 
-  void _addNote() async{
+  void _addNote(BuildContext context) {
     _counter++;
-    var response = await get(
-        Uri.parse('https://jsonplaceholder.typicode.com/posts/${_counter}'));
-    var note = Note.fromJSON(json.decode(response.body));
-    setState(() {
-    _notes.add(note);
-    });
+
+    // commented for now
+    // var response = await get(
+    //     Uri.parse('https://jsonplaceholder.typicode.com/posts/$_counter'));
+    // var note = Note.fromJSON(json.decode(response.body));
+    // setState(() {
+    // _notes.add(note);
+    // });
+    Navigator.pushNamed(context, '/addnewnote');
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          appBar: AppBar(
-            title: Center(child: Text('Suraj Notes')),
-          ),
-          body: NoteList(_notes),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: _addNote,
-          ),
-        ));
+      debugShowCheckedModeBanner: false,
+      routes: {
+        '/': (context) => Home(_notes, _addNote),
+        '/addnewnote': (context) => NewNote(),
+      },
+    );
   }
 }
