@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+// import 'package:http/http.dart';
 
 class NewNote extends StatelessWidget {
+  final TextEditingController titleField;
+  final TextEditingController bodyField;
 
-  void addNewNoteHandler() {
-    print('hey let\'s work together');
-  }
+  Function addNewNoteHandler;
+
+  NewNote(this.titleField, this.bodyField, this.addNewNoteHandler);
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +35,10 @@ class NewNote extends StatelessWidget {
 
   Widget titleInput() {
     return TextFormField(
+      controller: titleField,
       decoration: InputDecoration(
-          labelText: 'Enter the title here', 
-          icon: Icon(Icons.title_outlined),
+        labelText: 'Enter the title here',
+        icon: Icon(Icons.title_outlined),
       ),
     );
   }
@@ -42,6 +46,7 @@ class NewNote extends StatelessWidget {
   Widget bodyInput() {
     return Container(
       child: TextFormField(
+        controller: bodyField,
         decoration: InputDecoration(
           labelText: 'Enter the body here',
           icon: Icon(Icons.book),

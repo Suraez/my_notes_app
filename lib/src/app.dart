@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import './Models/note.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
@@ -13,13 +12,46 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-  List<Note> _notes = [];
+  List _notes;
+  final String api = 'https://myflutternoteapp.herokuapp.com/note/all';
+  var response;
 
-  var _counter = 0;
+  final TextEditingController _titleField = TextEditingController();
+  final TextEditingController _bodyField = TextEditingController();
+
+  // add new note
+  void addNewNoteHandler() async {
+    final String addNoteApi =
+        'https://myflutternoteapp.herokuapp.com/note/create';
+    var newNote = {"title": _titleField.text, "body": _bodyField.text};
+    var response = await post(Uri.parse(addNoteApi), body: newNote);
+    print(response.body);
+    setState(() {
+      _notes.add(json.decode(response.body)["data"]);
+    });
+  }
+
+  // delete note
+  // void deleteNoteHandler(id) async {
+    
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    getAllNotes();
+  }
+
+  // getting all notes
+  void getAllNotes() async {
+    response = await get(Uri.parse(api));
+    setState(() {
+      _notes = json.decode(response.body)["data"];
+      // print(_notes);
+    });
+  }
 
   void _addNote(BuildContext context) {
-    _counter++;
-
     // commented for now
     // var response = await get(
     //     Uri.parse('https://jsonplaceholder.typicode.com/posts/$_counter'));
@@ -35,8 +67,9 @@ class _AppState extends State<App> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => Home(_notes, _addNote),
-        '/addnewnote': (context) => NewNote(),
+        '/': (context) => Home(_notes, _addNote, response),
+        '/addnewnote': (context) =>
+            NewNote(_titleField, _bodyField, addNewNoteHandler),
       },
     );
   }
