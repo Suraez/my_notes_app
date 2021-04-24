@@ -11,7 +11,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Suraj Notes')),
+        title: Center(child: Text('My Notes')),
       ),
       body: res != null
           ? NoteList(notes)
@@ -20,6 +20,7 @@ class Home extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () => addNote(context),
       ),
+      bottomNavigationBar: Text('Developed by Suraj'),
     );
   }
 }
