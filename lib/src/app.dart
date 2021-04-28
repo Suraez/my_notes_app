@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:my_notes/src/Pages/single_note.dart';
 import 'dart:convert';
 
 // custom imports
@@ -20,7 +21,7 @@ class _AppState extends State<App> {
   final TextEditingController _bodyField = TextEditingController();
 
   // add new note
-  void addNewNoteHandler() async {
+  void addNewNoteHandler(BuildContext context) async {
     final String addNoteApi =
         'https://myflutternoteapp.herokuapp.com/note/create';
     var newNote = {"title": _titleField.text, "body": _bodyField.text};
@@ -28,12 +29,13 @@ class _AppState extends State<App> {
     print(response.body);
     setState(() {
       _notes.add(json.decode(response.body)["data"]);
+      Navigator.pop(context);
     });
   }
 
   // delete note
   // void deleteNoteHandler(id) async {
-    
+
   // }
 
   @override
@@ -70,6 +72,7 @@ class _AppState extends State<App> {
         '/': (context) => Home(_notes, _addNote, response),
         '/addnewnote': (context) =>
             NewNote(_titleField, _bodyField, addNewNoteHandler),
+        '/singlenote': (context) => SingleNote()
       },
     );
   }

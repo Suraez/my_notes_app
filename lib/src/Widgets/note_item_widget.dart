@@ -7,35 +7,31 @@ class NoteItemWidget extends StatelessWidget {
   NoteItemWidget({this.note, this.animation, this.onClicked});
   @override
   Widget build(BuildContext context) {
-        return Container(
-            margin: EdgeInsets.all(20.0),
-            padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 8.0),
+    return InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, '/singlenote', arguments: {
+            'title': note['title'],
+            'body': note['body'],
+          });
+        },
+        child: Container(
+          margin: EdgeInsets.only(top: 20.0),
+          padding: EdgeInsets.all(4.0),
+          child: Card(
+            color: Colors.lightBlue,
+            child: ListTile(
+              leading: Icon(Icons.arrow_right),
+              title: Text(
+                note["title"],
+                style: TextStyle(color: Colors.white,),
+              ),
+              trailing: IconButton(
+                icon: Icon(Icons.delete_outline_outlined),
+                onPressed: onClicked,
+                color: Colors.redAccent[700],
+              ),
             ),
-            child: Column(
-              children: <Widget>[
-                noteBuilder(note["title"], note["_id"]),
-                Text(note["body"])
-              ],
-            ));
-      }
-
-      Widget noteBuilder (noteTitle, id) => Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-              child: Text(noteTitle,
-                  style: TextStyle(
-                    color: Colors.blue[200],
-                    fontWeight: FontWeight.bold,
-                  ))),
-          ElevatedButton(
-            onPressed: onClicked,
-            child: Icon(Icons.delete),
-          )
-        ],
-      ),
-    );
+          ),
+        ));
+  }
 }

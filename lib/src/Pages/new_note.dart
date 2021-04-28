@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_notes/src/Widgets/footer.dart';
 // import 'package:http/http.dart';
 
 class NewNote extends StatelessWidget {
@@ -16,10 +17,12 @@ class NewNote extends StatelessWidget {
           foregroundColor: Colors.green[200],
           title: Text('Add New Note'),
         ),
-        body: newNoteForm());
+        body: newNoteForm(context),
+        bottomNavigationBar: Footer(),
+    );
   }
 
-  Widget newNoteForm() {
+  Widget newNoteForm(context) {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
@@ -27,7 +30,7 @@ class NewNote extends StatelessWidget {
         children: <Widget>[
           titleInput(),
           bodyInput(),
-          addNewButton(),
+          addNewButton(context),
         ],
       ),
     );
@@ -56,10 +59,10 @@ class NewNote extends StatelessWidget {
     );
   }
 
-  Widget addNewButton() {
+  Widget addNewButton(BuildContext context) {
     return ElevatedButton(
       child: Text('Add New Note'),
-      onPressed: addNewNoteHandler,
+      onPressed: () => addNewNoteHandler(context),
     );
   }
 }
