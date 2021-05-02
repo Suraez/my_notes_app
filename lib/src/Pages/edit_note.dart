@@ -2,28 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:my_notes/src/Widgets/footer.dart';
 // import 'package:http/http.dart';
 
-class NewNote extends StatelessWidget {
+class EditNote extends StatelessWidget {
+  TextEditingController titleField;
+  TextEditingController bodyField;
 
-  final TextEditingController titleField;
-  final TextEditingController bodyField;
+  Function editNoteHandler;
 
-  Function addNewNoteHandler;
+  //stores all the data of note passed to it from single note widget
+  Map data = {};
 
-  NewNote(this.titleField, this.bodyField, this.addNewNoteHandler);
+
+  EditNote(this.editNoteHandler);
 
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context).settings.arguments;
+    titleField = TextEditingController(text: data["title"]);
+    bodyField = TextEditingController(text: data["body"]);
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.green[200],
-        title: Text('Add New Note'),
+        title: Text('Edit Note'),
       ),
-      body: newNoteForm(context),
+      body: editNoteForm(context),
       bottomNavigationBar: Footer(),
     );
   }
 
-  Widget newNoteForm(context) {
+  Widget editNoteForm(context) {
     return Container(
       margin: EdgeInsets.all(20.0),
       padding: EdgeInsets.all(20.0),
@@ -62,8 +68,8 @@ class NewNote extends StatelessWidget {
 
   Widget addNewButton(BuildContext context) {
     return ElevatedButton(
-      child: Text('Add New Note'),
-      onPressed: () => addNewNoteHandler(context),
+      child: Text('Edit Note'),
+      onPressed: () => editNoteHandler(context, titleField.text, bodyField.text, data["id"]),
     );
   }
 }

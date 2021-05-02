@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:my_notes/src/Pages/edit_note.dart';
 import 'package:my_notes/src/Pages/single_note.dart';
 import 'dart:convert';
 
@@ -33,10 +34,24 @@ class _AppState extends State<App> {
     });
   }
 
-  // delete note
-  // void deleteNoteHandler(id) async {
-
-  // }
+  void editNoteHandler(BuildContext context, title, body, id) async {
+    var editNoteApi = "https://myflutternoteapp.herokuapp.com/note/update/$id";
+    var updatedNote = {"title": title, "body": body};
+    var response = await put(Uri.parse(editNoteApi), body: updatedNote);
+    print((response.body).runtimeType);
+    var updatedResponse = json.decode(response.body)["data"];
+    setState(() {
+      print(updatedResponse);
+      var originalNote = _notes.firstWhere((note) => note["_id"] == id);
+      originalNote["title"] = title;
+      originalNote["body"] = body;
+        Navigator.pushNamed(context, '/singlenote', arguments: {
+              'title': originalNote['title'],
+              'body': originalNote['body'],
+              'id': originalNote['_id']
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -72,7 +87,8 @@ class _AppState extends State<App> {
         '/': (context) => Home(_notes, _addNote, response),
         '/addnewnote': (context) =>
             NewNote(_titleField, _bodyField, addNewNoteHandler),
-        '/singlenote': (context) => SingleNote()
+        '/singlenote': (context) => SingleNote(),
+        '/editnote': (context) => EditNote(editNoteHandler),
       },
     );
   }

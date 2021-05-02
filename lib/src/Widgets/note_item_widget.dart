@@ -12,6 +12,7 @@ class NoteItemWidget extends StatelessWidget {
           Navigator.pushNamed(context, '/singlenote', arguments: {
             'title': note['title'],
             'body': note['body'],
+            'id': note['_id']
           });
         },
         child: Container(
@@ -20,7 +21,7 @@ class NoteItemWidget extends StatelessWidget {
           child: Card(
             color: Colors.lightBlue,
             child: ListTile(
-              leading: Icon(Icons.arrow_right),
+              leading: Icon(Icons.arrow_right, color: Colors.white,),
               title: Text(
                 note["title"],
                 style: TextStyle(color: Colors.white,),
