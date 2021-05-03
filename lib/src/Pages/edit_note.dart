@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_notes/src/Widgets/footer.dart';
 // import 'package:http/http.dart';
 
+// ignore: must_be_immutable
 class EditNote extends StatelessWidget {
   TextEditingController titleField;
   TextEditingController bodyField;

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:my_notes/src/Pages/edit_note.dart';
 import 'package:my_notes/src/Pages/single_note.dart';
+import 'package:my_notes/src/blocs/bloc.dart';
+import 'package:my_notes/src/blocs/provider.dart';
 import 'dart:convert';
 
 // custom imports
@@ -45,10 +47,10 @@ class _AppState extends State<App> {
       var originalNote = _notes.firstWhere((note) => note["_id"] == id);
       originalNote["title"] = title;
       originalNote["body"] = body;
-        Navigator.pushNamed(context, '/singlenote', arguments: {
-              'title': originalNote['title'],
-              'body': originalNote['body'],
-              'id': originalNote['_id']
+      Navigator.pushNamed(context, '/singlenote', arguments: {
+        'title': originalNote['title'],
+        'body': originalNote['body'],
+        'id': originalNote['_id']
       });
     });
   }
@@ -81,7 +83,9 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    final bloc = Provider.of(context);
+    return Provider(
+        child: MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => Home(_notes, _addNote, response),
@@ -90,6 +94,6 @@ class _AppState extends State<App> {
         '/singlenote': (context) => SingleNote(),
         '/editnote': (context) => EditNote(editNoteHandler),
       },
-    );
+    ));
   }
 }

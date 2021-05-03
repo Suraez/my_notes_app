@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_notes/src/Widgets/footer.dart';
 
+// ignore: must_be_immutable
 class SingleNote extends StatelessWidget {
   Map data = {};
   @override
